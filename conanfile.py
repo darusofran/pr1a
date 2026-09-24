@@ -17,7 +17,13 @@ class ConanApplication(ConanFile):
         tc.user_presets_path = False
         tc.generate()
 
+
+
     def requirements(self):
-        requirements = self.conan_data.get('requirements', [])
-        for requirement in requirements:
-            self.requires(requirement)
+        # Solo descarga las dependencias si el sistema NO es macOS
+        if self.settings.os != "Macos":
+            self.requires("freeglut/3.4.0")
+            self.requires("opengl/system")
+            self.requires("glu/system")
+            self.requires("opengl-registry/cci.20220929")
+            self.requires("khrplatform/cci.20200529")

@@ -12,6 +12,19 @@ add_executable(${PROJECT_NAME}
         igvInterfaz.h
         pr1a.cpp)
 
+# Buscar las librerías gráficas en el sistema
+find_package(OpenGL REQUIRED)
+find_package(GLUT REQUIRED)
+
+# Enlazar dependiendo del sistema operativo
+if (APPLE)
+    # Usa los frameworks nativos de macOS (para tu portátil)
+    target_link_libraries(pr1a "-framework OpenGL" "-framework GLUT")
+else()
+    # Usa las librerías estándar/Conan (para tu PC de Windows)
+    target_link_libraries(pr1a ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+endif()
+
 if (LINUX)
     find_path(OPENGL_REGISTRY_INCLUDE_DIRS "GL/glcorearb.h")
     target_include_directories(${PROJECT_NAME} PRIVATE ${OPENGL_REGISTRY_INCLUDE_DIRS})
