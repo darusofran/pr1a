@@ -81,7 +81,6 @@ void igvEscena3D::figura_1_esfera ()
 
 
 
-
 }
 
 

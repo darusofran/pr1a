@@ -21,6 +21,7 @@ class igvEscena3D
    private:
       // Atributos
       bool ejes  = true;   ///< Indica si hay que dibujar los ejes coordenados o no
+      int objetoSeleccionado = 1;
       // TODO: Declarar atributos para manejar las transformaciones para las escenas B y C
 
    public:
@@ -37,11 +38,15 @@ class igvEscena3D
       bool get_ejes();
       void set_ejes(bool _ejes);
 
+      int get_objeto_seleccionado() const { return objetoSeleccionado; }
+      void set_objeto_seleccionado(int obj) { objetoSeleccionado = obj; }
+
    private:
 
 
       void pintar_ejes ();
       void figura_1_esfera ();
+
 };
 
 #endif   // __IGVESCENA3D

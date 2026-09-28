@@ -108,6 +108,10 @@ void igvInterfaz::keyboardFunc ( unsigned char key, int x, int y )
       case 27: // tecla de escape para SALIR
          exit ( 1 );
          break;
+
+      case '1':
+          _instancia->escena.set_objeto_seleccionado(1);
+          break;
    }
    glutPostRedisplay (); // renueva el contenido de la ventana de vision
 }
