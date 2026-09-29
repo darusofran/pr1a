@@ -1,6 +1,8 @@
 #include <cstdlib>
 
 #include "igvInterfaz.h"
+#include "igvEscena3D.h"
+
 
 // Aplicaci�n del patr�n Singleton
 igvInterfaz* igvInterfaz::_instancia = nullptr;
@@ -110,10 +112,16 @@ void igvInterfaz::keyboardFunc ( unsigned char key, int x, int y )
          break;
 
       case '1':
-          _instancia->escena.set_objeto_seleccionado(1);
+          _instancia->escena.seleccionado=0;
           break;
 
-      case glutSpecialFunc(GLUT_KEY_LEFT):
+      case GLUT_KEY_LEFT:
+            _instancia->escena.objeto[_instancia->escena.seleccionado].tx -= 0.1f;
+            break;
+
+      case GLUT_KEY_RIGHT:
+            _instancia->escena.objeto[_instancia->escena.seleccionado].tx += 0.1f;
+             break;
 
    }
    glutPostRedisplay (); // renueva el contenido de la ventana de vision

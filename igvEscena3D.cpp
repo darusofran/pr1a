@@ -13,13 +13,7 @@
  * M�todo para pintar los ejes coordenados llamando a funciones de OpenGL
  */
 
-struct Transformaciones {
-   float tx = 0, ty = 0, tz = 0; // traslación acumulada
-   float rx = 0, ry = 0, rz = 0; // ángulos acumulados (grados)
-   float s = 1; // escala acumulada
-};
-Transformaciones obj[3]; // una por objeto
-int seleccionado = 0;
+
 
 void igvEscena3D::pintar_ejes ()
 {  GLfloat rojo[] = { 1,0,0,1.0 };
@@ -108,13 +102,13 @@ void igvEscena3D::visualizar ()
    glLightfv ( GL_LIGHT0, GL_POSITION, light0 );
    glEnable ( GL_LIGHT0 );
 
-   glPushMatrix (); // guarda la matriz de modelado
+   // guarda la matriz de modelado
 
    // se pintan los ejes
    if ( ejes )
    {  pintar_ejes ();
    }
-
+   glPushMatrix ();
    // Escena seleccionada a trav�s del men� (clic bot�n derecho)
   /* if ( escena == EscenaA )
    {  renderEscenaA ();
@@ -130,6 +124,7 @@ void igvEscena3D::visualizar ()
       }
    }*/
 
+   glTranslatef(objeto[0].tx,objeto[0].ty,objeto[0].tz);
    muñeco_nieve();
    glPopMatrix (); // restaura la matriz de modelado
    glutSwapBuffers (); // se utiliza, en vez de glFlush(), para evitar el parpadeo

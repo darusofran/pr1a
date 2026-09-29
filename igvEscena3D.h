@@ -12,6 +12,13 @@
 /**
  * Los objetos de esta clase representan escenas 3D para su visualizaci�n
  */
+
+struct Transformaciones {
+   float tx = 0.0f, ty = 0.0f, tz = 0.0f;
+   float rx = 0.0f, ry = 0.0f, rz = 0.0f;
+   float s = 1.0f;
+};
+
 class igvEscena3D
 {  public:
 
@@ -21,7 +28,7 @@ class igvEscena3D
    private:
       // Atributos
       bool ejes  = true;   ///< Indica si hay que dibujar los ejes coordenados o no
-      int objetoSeleccionado = 1;
+
       // TODO: Declarar atributos para manejar las transformaciones para las escenas B y C
 
    public:
@@ -31,6 +38,9 @@ class igvEscena3D
       /// Destructor
       ~igvEscena3D() = default;
 
+   Transformaciones objeto[3];
+   int seleccionado = 0;
+
       // M�todos
       // m�todo con las llamadas OpenGL para visualizar la escena
       void visualizar ();
@@ -38,8 +48,9 @@ class igvEscena3D
       bool get_ejes();
       void set_ejes(bool _ejes);
 
-      int get_objeto_seleccionado() const { return objetoSeleccionado; }
-      void set_objeto_seleccionado(int obj) { objetoSeleccionado = obj; }
+
+      //int get_seleccionado() const { return seleccionado; }
+      //void set_seleccionado(int objeto) { seleccionado = objeto; }
 
 
    private:
