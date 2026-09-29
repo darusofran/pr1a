@@ -12,6 +12,15 @@
 /**
  * M�todo para pintar los ejes coordenados llamando a funciones de OpenGL
  */
+
+struct Transformaciones {
+   float tx = 0, ty = 0, tz = 0; // traslación acumulada
+   float rx = 0, ry = 0, rz = 0; // ángulos acumulados (grados)
+   float s = 1; // escala acumulada
+};
+Transformaciones obj[3]; // una por objeto
+int seleccionado = 0;
+
 void igvEscena3D::pintar_ejes ()
 {  GLfloat rojo[] = { 1,0,0,1.0 };
    GLfloat verde[] = { 0,1,0,1.0 };
@@ -32,7 +41,7 @@ void igvEscena3D::pintar_ejes ()
    glEnd();
 }
 
-void igvEscena3D::figura_1_esfera ()
+void igvEscena3D::muñeco_nieve ()
 {
 
    GLfloat rojo[] = { 1,0,0,1.0 };
@@ -40,17 +49,17 @@ void igvEscena3D::figura_1_esfera ()
 
    glPushMatrix();
    glTranslatef (0, 0, 0);
-   glutSolidSphere(1.0, 30, 30); // radio = 1.0, 30 gajos, 30 anillos
+   glutSolidSphere(1.0, 30, 30);
    glPopMatrix();
 
    glPushMatrix();
    glTranslatef (0, 1.5, 0);
-   glutSolidSphere(1.0, 30, 30); // radio = 1.0, 30 gajos, 30 anillos
+   glutSolidSphere(1.0, 30, 30);
    glPopMatrix();
 
    glPushMatrix();
    glTranslatef (0, 3, 0);
-   glutSolidSphere(1.0, 30, 30); // radio = 1.0, 30 gajos, 30 anillos
+   glutSolidSphere(1.0, 30, 30);
    glPopMatrix();
 
    glPushMatrix();
@@ -121,7 +130,7 @@ void igvEscena3D::visualizar ()
       }
    }*/
 
-   figura_1_esfera();
+   muñeco_nieve();
    glPopMatrix (); // restaura la matriz de modelado
    glutSwapBuffers (); // se utiliza, en vez de glFlush(), para evitar el parpadeo
 }

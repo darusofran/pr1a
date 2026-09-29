@@ -41,11 +41,12 @@ class igvEscena3D
       int get_objeto_seleccionado() const { return objetoSeleccionado; }
       void set_objeto_seleccionado(int obj) { objetoSeleccionado = obj; }
 
+
    private:
 
 
       void pintar_ejes ();
-      void figura_1_esfera ();
+      void muñeco_nieve ();
 
 };
 

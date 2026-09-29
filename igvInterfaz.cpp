@@ -112,6 +112,9 @@ void igvInterfaz::keyboardFunc ( unsigned char key, int x, int y )
       case '1':
           _instancia->escena.set_objeto_seleccionado(1);
           break;
+
+      case glutSpecialFunc(GLUT_KEY_LEFT):
+
    }
    glutPostRedisplay (); // renueva el contenido de la ventana de vision
 }
