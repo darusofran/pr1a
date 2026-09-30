@@ -160,16 +160,13 @@ void igvEscena3D::visualizar ()
       }
    }*/
 
+
    glPushMatrix ();
-
-   glTranslatef(objeto[seleccionado].tx,objeto[seleccionado].ty,objeto[seleccionado].tz);
-
-
-
-
    muñeco_nieve();
-   silla();
+   glPopMatrix();
 
+   glPushMatrix ();
+   silla();
    glPopMatrix();
 
 
