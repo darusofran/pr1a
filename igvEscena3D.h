@@ -41,7 +41,7 @@ class igvEscena3D
    Transformaciones objeto[3];
    int seleccionado = 0;
 
-   
+
 
       // M�todos
       // m�todo con las llamadas OpenGL para visualizar la escena
@@ -59,7 +59,7 @@ class igvEscena3D
 
       void pintar_ejes ();
       void muñeco_nieve ();
-      void silla();
+      void mesita();
 
 };
 

@@ -37,7 +37,7 @@ void igvEscena3D::pintar_ejes ()
    glEnd();
 }
 
-void igvEscena3D::silla()
+void igvEscena3D::mesita()
 {
 
 
@@ -199,7 +199,10 @@ void igvEscena3D::visualizar ()
 
    glPushMatrix ();
    glTranslatef(objeto[1].tx, objeto[1].ty, objeto[1].tz);
-   silla();
+   glRotatef(objeto[1].rx,1,0,0);
+   glRotatef(objeto[1].ry,0,1,0);
+   glRotatef(objeto[1].rz,0,0,1);
+   mesita();
    glPopMatrix();
 
    glutSwapBuffers (); // se utiliza, en vez de glFlush(), para evitar el parpadeo
