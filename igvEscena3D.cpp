@@ -5,6 +5,8 @@
 
 #include "igvEscena3D.h"
 
+
+
 // M�todos constructores -----------------------------------
 
 // M�todos p�blicos ----------------------------------------
@@ -35,8 +37,23 @@ void igvEscena3D::pintar_ejes ()
    glEnd();
 }
 
+void igvEscena3D::silla()
+{
+
+
+   GLfloat verde[] = { 0,1,0,1.0 };
+   glMaterialfv(GL_FRONT, GL_EMISSION, verde);
+
+   glPushMatrix();
+   glutSolidCube(1.2);
+   glPopMatrix();
+
+
+}
+
 void igvEscena3D::muñeco_nieve ()
 {
+
 
    GLfloat rojo[] = { 1,0,0,1.0 };
    glMaterialfv(GL_FRONT, GL_EMISSION, rojo);
@@ -93,6 +110,23 @@ void igvEscena3D::muñeco_nieve ()
  * @param escena Identificador del tipo de escena a dibujar
  * @pre Se asume que el valor del par�metro es correcto
  */
+
+/*void igvEscena3D::visualizar1 ()
+{  // borra la ventana y el Z-buffer
+   glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+   //Luces
+   GLfloat light0[] = { 10, 8, 9, 1 }; // point light source
+   glLightfv ( GL_LIGHT0, GL_POSITION, light0 );
+   glEnable ( GL_LIGHT0 );
+   glPushMatrix ();
+   glTranslatef(objeto[seleccionado].tx,objeto[seleccionado].ty,objeto[seleccionado].tz);
+   silla();
+   glPopMatrix();
+
+   glutSwapBuffers (); // se utiliza, en vez de glFlush(), para evitar el parpadeo
+}*/
+
 void igvEscena3D::visualizar ()
 {  // borra la ventana y el Z-buffer
    glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -108,7 +142,9 @@ void igvEscena3D::visualizar ()
    if ( ejes )
    {  pintar_ejes ();
    }
-   glPushMatrix ();
+
+
+
    // Escena seleccionada a trav�s del men� (clic bot�n derecho)
   /* if ( escena == EscenaA )
    {  renderEscenaA ();
@@ -124,9 +160,28 @@ void igvEscena3D::visualizar ()
       }
    }*/
 
-   glTranslatef(objeto[0].tx,objeto[0].ty,objeto[0].tz);
+   glPushMatrix ();
+
+   glTranslatef(objeto[seleccionado].tx,objeto[seleccionado].ty,objeto[seleccionado].tz);
+
+
+
+
    muñeco_nieve();
-   glPopMatrix (); // restaura la matriz de modelado
+   silla();
+
+   glPopMatrix();
+
+
+
+
+
+
+
+    // restaura la matriz de modeladoç
+
+
+
    glutSwapBuffers (); // se utiliza, en vez de glFlush(), para evitar el parpadeo
 }
 
