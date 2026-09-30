@@ -146,6 +146,14 @@ void igvInterfaz::keyboardFunc ( unsigned char key, int x, int y )
          _instancia->escena.objeto[_instancia->escena.seleccionado].rz -= 0.5;
          break;
 
+      case 's':
+         _instancia->escena.objeto[_instancia->escena.seleccionado].s += 0.5;
+         break;
+
+      case 'S':
+         _instancia->escena.objeto[_instancia->escena.seleccionado].s -= 0.5;
+         break;
+
 
    }
    glutPostRedisplay (); // renueva el contenido de la ventana de vision

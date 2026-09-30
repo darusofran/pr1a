@@ -194,6 +194,7 @@ void igvEscena3D::visualizar ()
    glRotatef(objeto[0].rx,1,0,0);
    glRotatef(objeto[0].ry,0,1,0);
    glRotatef(objeto[0].rz,0,0,1);
+   glScalef(objeto[0].s,objeto[0].s,objeto[0].s);
    muñeco_nieve();
    glPopMatrix();
 
@@ -202,6 +203,7 @@ void igvEscena3D::visualizar ()
    glRotatef(objeto[1].rx,1,0,0);
    glRotatef(objeto[1].ry,0,1,0);
    glRotatef(objeto[1].rz,0,0,1);
+   glScalef(objeto[1].s,objeto[1].s,objeto[1].s);
    mesita();
    glPopMatrix();
 
