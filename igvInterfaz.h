@@ -41,6 +41,7 @@ class igvInterfaz
       // callbacks de eventos
       static void keyboardFunc ( unsigned char key, int x, int y ); // m�todo para control de eventos del teclado
       static void reshapeFunc ( int w, int h ); // m�todo que define la c�mara de vision y el viewport
+      static void specialKeyFunc ( int key, int x, int y );
       // se llama autom�ticamente cuando se cambia el tama�o de la ventana
       static void displayFunc (); // m�todo para visualizar la escena
       //static void menuHandle(int value); // m�todo para gestionar la selecci�n de opciones de men�

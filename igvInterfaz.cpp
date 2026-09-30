@@ -101,6 +101,9 @@ void igvInterfaz::inicia_bucle_visualizacion ()
  * @pre Se asume que todos los par�metros tienen valores v�lidos
  * @post La escena puede cambiar dependiendo de la tecla pulsada
  */
+
+
+
 void igvInterfaz::keyboardFunc ( unsigned char key, int x, int y )
 {  switch ( key )
    {  case 'e': // activa/desactiva la visualizaci�n de los ejes
@@ -119,25 +122,59 @@ void igvInterfaz::keyboardFunc ( unsigned char key, int x, int y )
           _instancia->escena.seleccionado=1;
           break;
 
-      case 'n' :
-            _instancia->escena.objeto[_instancia->escena.seleccionado].tx -= 0.1;
-            break;
+      case 'x':
+          _instancia->escena.objeto[_instancia->escena.seleccionado].rx += 0.5;
+          break;
 
-      case 'm' :
-            _instancia->escena.objeto[_instancia->escena.seleccionado].tx += 0.1;
-             break;
+      case 'X':
+         _instancia->escena.objeto[_instancia->escena.seleccionado].rx -= 0.5;
+         break;
 
-      case 'U' :
-            _instancia->escena.objeto[_instancia->escena.seleccionado].ty -= 0.1;
-            break;
+      case 'y':
+         _instancia->escena.objeto[_instancia->escena.seleccionado].ry += 0.5;
+         break;
 
-      case 'u' :
-            _instancia->escena.objeto[_instancia->escena.seleccionado].ty += 0.1;
-            break;
+      case 'Y':
+         _instancia->escena.objeto[_instancia->escena.seleccionado].ry -= 0.5;
+         break;
+
+      case 'z':
+         _instancia->escena.objeto[_instancia->escena.seleccionado].rz += 0.5;
+         break;
+
+      case 'Z':
+         _instancia->escena.objeto[_instancia->escena.seleccionado].rz -= 0.5;
+         break;
+
 
    }
    glutPostRedisplay (); // renueva el contenido de la ventana de vision
 }
+
+void igvInterfaz::specialKeyFunc ( int key, int x, int y )
+{
+   switch ( key )
+   {
+   case  GLUT_KEY_LEFT:
+      _instancia->escena.objeto[_instancia->escena.seleccionado].tx -= 0.1;
+      break;
+
+   case GLUT_KEY_RIGHT :
+      _instancia->escena.objeto[_instancia->escena.seleccionado].tx += 0.1;
+      break;
+
+   case GLUT_KEY_DOWN :
+      _instancia->escena.objeto[_instancia->escena.seleccionado].ty -= 0.1;
+      break;
+
+   case GLUT_KEY_UP :
+      _instancia->escena.objeto[_instancia->escena.seleccionado].ty += 0.1;
+      break;
+   }
+
+   glutPostRedisplay ();
+}
+
 
 /**
  * M�todo que define la c�mara de visi�n y el viewport. Se llama autom�ticamente
@@ -193,7 +230,9 @@ void igvInterfaz::inicializa_callbacks()
 {  glutKeyboardFunc ( keyboardFunc );
    glutReshapeFunc ( reshapeFunc );
    glutDisplayFunc ( displayFunc );
+   glutSpecialFunc ( specialKeyFunc );
 }
+
 
 /**
  * M�todo para consultar el ancho de la ventana de visualizaci�n

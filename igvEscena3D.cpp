@@ -45,9 +45,37 @@ void igvEscena3D::silla()
    glMaterialfv(GL_FRONT, GL_EMISSION, verde);
 
    glPushMatrix();
-   glutSolidCube(1.2);
+   glScalef(3,0.5,3);
+   glutSolidCube(1);
    glPopMatrix();
 
+
+   glPushMatrix();
+   glScalef(0.5,2,0.5);
+   glTranslatef(2.5,-0.5,2.5);
+   glutSolidCube(1);
+   glPopMatrix();
+
+
+   glPushMatrix();
+   glScalef(0.5,2,0.5);
+   glTranslatef(-2.5,-0.5,2.5);
+   glutSolidCube(1);
+   glPopMatrix();
+
+
+   glPushMatrix();
+   glScalef(0.5,2,0.5);
+   glTranslatef(2.5,-0.5,-2.5);
+   glutSolidCube(1);
+   glPopMatrix();
+
+
+   glPushMatrix();
+   glScalef(0.5,2,0.5);
+   glTranslatef(-2.5,-0.5,-2.5);
+   glutSolidCube(1);
+   glPopMatrix();
 
 }
 
@@ -162,22 +190,17 @@ void igvEscena3D::visualizar ()
 
 
    glPushMatrix ();
+   glTranslatef(objeto[0].tx, objeto[0].ty, objeto[0].tz);
+   glRotatef(objeto[0].rx,1,0,0);
+   glRotatef(objeto[0].ry,0,1,0);
+   glRotatef(objeto[0].rz,0,0,1);
    muñeco_nieve();
    glPopMatrix();
 
    glPushMatrix ();
+   glTranslatef(objeto[1].tx, objeto[1].ty, objeto[1].tz);
    silla();
    glPopMatrix();
-
-
-
-
-
-
-
-    // restaura la matriz de modeladoç
-
-
 
    glutSwapBuffers (); // se utiliza, en vez de glFlush(), para evitar el parpadeo
 }
