@@ -110,6 +110,7 @@ void igvInterfaz::keyboardFunc ( unsigned char key, int x, int y )
       case 'E':
          _instancia->escena.set_ejes ( !_instancia->escena.get_ejes () );
          break;
+
       case 27: // tecla de escape para SALIR
          exit ( 1 );
          break;
