@@ -10,7 +10,11 @@ add_executable(${PROJECT_NAME}
         igvEscena3D.h
         igvInterfaz.cpp
         igvInterfaz.h
-        pr1a.cpp)
+        pr1a.cpp
+        igvCamara.cpp
+        igvCamara.h
+        igvPunto3D.cpp
+        igvPunto3D.h)
 
 # Buscar las librerías gráficas en el sistema
 find_package(OpenGL REQUIRED)
