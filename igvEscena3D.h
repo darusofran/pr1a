@@ -60,6 +60,7 @@ class igvEscena3D
       void pintar_ejes ();
       void muñeco_nieve ();
       void mesita();
+      void adaptador();
 
 };
 

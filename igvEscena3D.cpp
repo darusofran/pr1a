@@ -130,6 +130,96 @@ void igvEscena3D::muñeco_nieve ()
 }
 
 
+void igvEscena3D::adaptador()
+{
+    // CUERPO PRINCIPAL DEL ADAPTADOR
+
+    GLfloat negro[] = { 0.05, 0.05, 0.05, 1.0 };
+    glMaterialfv(GL_FRONT, GL_EMISSION, negro);
+
+    // Cuerpo principal (hacerlo con cilindro)
+    glPushMatrix();
+    glScalef(3.0, 4.0, 2.0);
+    glutSolidCube(1);
+    glPopMatrix();
+
+
+    // PARTE SUPERIOR REDONDEADA
+
+    glPushMatrix();
+    glTranslatef(0, 2.0, 0);
+    glScalef(3.0, 0.3, 2.0);
+    glutSolidCube(1);
+    glPopMatrix();
+
+
+    // PUERTO USB-C
+
+    // Marco exterior del puerto
+
+    glMaterialfv(GL_FRONT, GL_EMISSION, negro);
+
+    glPushMatrix();
+    glTranslatef(0, 0.3, 1.02);
+    glScalef(1.4, 0.55, 0.15);
+    glutSolidCube(1);
+    glPopMatrix();
+
+
+    // Interior del puerto USB-C
+    glPushMatrix();
+    glTranslatef(0, 0.3, 1.12);
+    glScalef(1.0, 0.25, 0.08);
+    glutSolidCube(1);
+    glPopMatrix();
+
+/*
+    // CONTACTOS DEL PUERTO USB-C
+
+    GLfloat metal[] = { 0.65, 0.65, 0.65, 1.0 };
+    glMaterialfv(GL_FRONT, GL_EMISSION, metal);
+
+    // Contacto superior
+    glPushMatrix();
+    glTranslatef(0, 0.43, 1.20);
+    glScalef(0.7, 0.06, 0.04);
+    glutSolidCube(1);
+    glPopMatrix();
+
+    // Contacto inferior
+    glPushMatrix();
+    glTranslatef(0, 0.17, 1.20);
+    glScalef(0.7, 0.06, 0.04);
+    glutSolidCube(1);
+    glPopMatrix();
+*/
+
+    // PATILLAS DEL ENCHUFE
+
+    GLfloat gris[] = { 0.45, 0.45, 0.45, 1.0 };
+    glMaterialfv(GL_FRONT, GL_EMISSION, gris);
+
+    // Patilla izquierda
+    glPushMatrix();
+    glTranslatef(-0.8, -2.0, 0);
+    glRotatef(90, 1, 0, 0);
+    glScalef(0.35, 0.35, 1.5);
+    glutSolidCube(1);
+    glPopMatrix();
+
+    // Patilla derecha
+    glPushMatrix();
+    glTranslatef(0.8, -2.0, 0);
+    glRotatef(90, 1, 0, 0);
+    glScalef(0.35, 0.35, 1.5);
+    glutSolidCube(1);
+    glPopMatrix();
+
+
+
+}
+
+
 
 /**
  * M�todo con las llamadas OpenGL para visualizar la escena
@@ -203,6 +293,15 @@ void igvEscena3D::visualizar ()
    glRotatef(objeto[1].rz,0,0,1);
    glScalef(objeto[1].s,objeto[1].s,objeto[1].s);
    mesita();
+   glPopMatrix();
+
+   glPushMatrix ();
+   glTranslatef(objeto[2].tx, objeto[0].ty, objeto[0].tz);
+   glRotatef(objeto[2].rx,1,0,0);
+   glRotatef(objeto[2].ry,0,1,0);
+   glRotatef(objeto[2].rz,0,0,1);
+   glScalef(objeto[2].s,objeto[2].s,objeto[2].s);
+   adaptador();
    glPopMatrix();
 
    glutSwapBuffers (); // se utiliza, en vez de glFlush(), para evitar el parpadeo

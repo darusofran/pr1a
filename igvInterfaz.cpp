@@ -123,6 +123,10 @@ void igvInterfaz::keyboardFunc ( unsigned char key, int x, int y )
           _instancia->escena.seleccionado=1;
           break;
 
+      case '3':
+         _instancia->escena.seleccionado=2;
+         break;
+
       case 'x':
           _instancia->escena.objeto[_instancia->escena.seleccionado].rx += 0.5;
           break;
