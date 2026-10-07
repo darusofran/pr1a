@@ -37,7 +37,6 @@ void igvEscena3D::pintar_ejes ()
 
 void igvEscena3D::mesita()
 {
-    // MESA REDONDA
 
     GLfloat marron[] = { 0.45, 0.20, 0.05, 1.0 };
     glMaterialfv(GL_FRONT, GL_EMISSION, marron);
@@ -63,7 +62,6 @@ void igvEscena3D::mesita()
 
     gluDeleteQuadric(tablero);
 
-
     // PATA CENTRAL
 
     GLfloat marronOscuro[] = { 0.25, 0.10, 0.03, 1.0 };
@@ -88,7 +86,6 @@ void igvEscena3D::mesita()
     glutSolidSphere(1.0, 30, 20);
     glPopMatrix();
 
-
     // FLORERO
 
     GLfloat florero[] = { 0.2, 0.55, 0.65, 1.0 };
@@ -97,7 +94,6 @@ void igvEscena3D::mesita()
     GLUquadricObj *vaso;
     vaso = gluNewQuadric();
 
-    // Cuerpo del florero
     glPushMatrix();
     glTranslatef(0, 0.0, 0);
     glRotatef(-90, 1, 0, 0);
@@ -106,7 +102,6 @@ void igvEscena3D::mesita()
 
     gluDeleteQuadric(vaso);
 
-    // Borde del florero
     glPushMatrix();
     glTranslatef(0, 1.2, 0);
     glutSolidTorus(0.10, 0.65, 20, 30);
@@ -116,7 +111,6 @@ void igvEscena3D::mesita()
 
 void igvEscena3D::muñeco_nieve ()
 {
-
 
    GLfloat rojo[] = { 1,0,0,1.0 };
    glMaterialfv(GL_FRONT, GL_EMISSION, rojo);
@@ -150,8 +144,6 @@ void igvEscena3D::muñeco_nieve ()
    gluCylinder(cilindroDer, 0.05,0.05, 3, 300, 300);
    gluDeleteQuadric(cilindroDer);
 
-
-
    GLUquadricObj *cilindroIzq;
    cilindroIzq= gluNewQuadric ();
    gluQuadricDrawStyle (cilindroIzq, GLU_LINE);
@@ -162,26 +154,19 @@ void igvEscena3D::muñeco_nieve ()
    gluCylinder(cilindroIzq, 0.05,0.05, 3, 300, 300);
    gluDeleteQuadric(cilindroIzq);
 
-
-
 }
 
 
 void igvEscena3D::adaptador()
 {
-    // CUERPO PRINCIPAL
 
     GLfloat negro[] = { 0.05, 0.05, 0.05, 1.0 };
     glMaterialfv(GL_FRONT, GL_EMISSION, negro);
 
-    // Parte central del cuerpo
     glPushMatrix();
     glScalef(3.6, 3.2, 2.4);
     glutSolidCube(1);
     glPopMatrix();
-
-
-    // PARTE SUPERIOR MÁS ESTRECHA
 
     glPushMatrix();
     glTranslatef(0, 2.15, 0);
@@ -210,7 +195,6 @@ void igvEscena3D::adaptador()
     GLfloat metal[] = { 0.45, 0.45, 0.45, 1.0 };
     glMaterialfv(GL_FRONT, GL_EMISSION, metal);
 
-    // Punta izquierda
     GLUquadricObj *puntaIzq;
     puntaIzq = gluNewQuadric();
 
@@ -222,8 +206,6 @@ void igvEscena3D::adaptador()
 
     gluDeleteQuadric(puntaIzq);
 
-
-    // Punta derecha
     GLUquadricObj *puntaDer;
     puntaDer = gluNewQuadric();
 
