@@ -37,44 +37,148 @@ void igvEscena3D::pintar_ejes ()
 
 void igvEscena3D::mesita()
 {
+    // ============================================================
+    // MESA REDONDA
+    // ============================================================
+
+    GLfloat marron[] = { 0.45, 0.20, 0.05, 1.0 };
+    glMaterialfv(GL_FRONT, GL_EMISSION, marron);
+
+    // Tablero circular
+    GLUquadricObj *tablero;
+    tablero = gluNewQuadric();
+
+    glPushMatrix();
+    glRotatef(90, 1, 0, 0);
+    gluCylinder(tablero, 3.0, 3.0, 0.5, 40, 10);
+    glPopMatrix();
+
+    gluDeleteQuadric(tablero);
 
 
-   GLfloat verde[] = { 0,1,0,1.0 };
-   glMaterialfv(GL_FRONT, GL_EMISSION, verde);
-
-   glPushMatrix();
-   glScalef(3,0.5,3);
-   glutSolidCube(1);
-   glPopMatrix();
 
 
-   glPushMatrix();
-   glScalef(0.5,2,0.5);
-   glTranslatef(2.5,-0.5,2.5);
-   glutSolidCube(1);
-   glPopMatrix();
+
+    // ============================================================
+    // PATA CENTRAL
+    // ============================================================
+
+    GLfloat marronOscuro[] = { 0.25, 0.10, 0.03, 1.0 };
+    glMaterialfv(GL_FRONT, GL_EMISSION, marronOscuro);
+
+    GLUquadricObj *pata;
+    pata = gluNewQuadric();
+
+    glPushMatrix();
+    glTranslatef(0, -3.0, 0);
+    glRotatef(-90, 1, 0, 0);
+    gluCylinder(pata, 0.7, 0.9, 3.0, 30, 10);
+    glPopMatrix();
+
+    gluDeleteQuadric(pata);
 
 
-   glPushMatrix();
-   glScalef(0.5,2,0.5);
-   glTranslatef(-2.5,-0.5,2.5);
-   glutSolidCube(1);
-   glPopMatrix();
+    // ============================================================
+    // BASE DE LA MESA
+    // ============================================================
+
+    glPushMatrix();
+    glTranslatef(0, -3.1, 0);
+    glScalef(1.8, 0.35, 1.8);
+    glutSolidSphere(1.0, 30, 20);
+    glPopMatrix();
 
 
-   glPushMatrix();
-   glScalef(0.5,2,0.5);
-   glTranslatef(2.5,-0.5,-2.5);
-   glutSolidCube(1);
-   glPopMatrix();
+    // ============================================================
+    // FLORERO
+    // ============================================================
+
+    GLfloat florero[] = { 0.2, 0.55, 0.65, 1.0 };
+    glMaterialfv(GL_FRONT, GL_EMISSION, florero);
+
+    GLUquadricObj *vaso;
+    vaso = gluNewQuadric();
+
+    // Cuerpo del florero
+    glPushMatrix();
+    glTranslatef(0, 0.7, 0);
+    glRotatef(-90, 1, 0, 0);
+    gluCylinder(vaso, 0.65, 0.45, 1.2, 30, 10);
+    glPopMatrix();
+
+    gluDeleteQuadric(vaso);
 
 
-   glPushMatrix();
-   glScalef(0.5,2,0.5);
-   glTranslatef(-2.5,-0.5,-2.5);
-   glutSolidCube(1);
-   glPopMatrix();
+    // Borde del florero
+    glPushMatrix();
+    glTranslatef(0, 1.9, 0);
+    glutSolidTorus(0.10, 0.65, 20, 30);
+    glPopMatrix();
 
+
+    // ============================================================
+    // TALLO DE LA FLOR
+    // ============================================================
+
+    GLfloat verde[] = { 0.05, 0.5, 0.05, 1.0 };
+    glMaterialfv(GL_FRONT, GL_EMISSION, verde);
+
+    GLUquadricObj *tallo;
+    tallo = gluNewQuadric();
+
+    glPushMatrix();
+    glTranslatef(0, 1.9, 0);
+    glRotatef(-90, 1, 0, 0);
+    gluCylinder(tallo, 0.08, 0.08, 1.8, 15, 8);
+    glPopMatrix();
+
+    gluDeleteQuadric(tallo);
+
+
+    // ============================================================
+    // FLOR
+    // ============================================================
+
+    GLfloat rosa[] = { 0.9, 0.1, 0.25, 1.0 };
+    glMaterialfv(GL_FRONT, GL_EMISSION, rosa);
+
+    // Pétalo izquierdo
+    glPushMatrix();
+    glTranslatef(-0.3, 3.75, 0);
+    glScalef(0.4, 0.4, 0.25);
+    glutSolidSphere(1.0, 20, 20);
+    glPopMatrix();
+
+    // Pétalo derecho
+    glPushMatrix();
+    glTranslatef(0.3, 3.75, 0);
+    glScalef(0.4, 0.4, 0.25);
+    glutSolidSphere(1.0, 20, 20);
+    glPopMatrix();
+
+    // Pétalo superior
+    glPushMatrix();
+    glTranslatef(0, 4.05, 0);
+    glScalef(0.4, 0.4, 0.25);
+    glutSolidSphere(1.0, 20, 20);
+    glPopMatrix();
+
+    // Pétalo inferior
+    glPushMatrix();
+    glTranslatef(0, 3.45, 0);
+    glScalef(0.4, 0.4, 0.25);
+    glutSolidSphere(1.0, 20, 20);
+    glPopMatrix();
+
+
+    // Centro de la flor
+    GLfloat amarillo[] = { 1.0, 0.7, 0.0, 1.0 };
+    glMaterialfv(GL_FRONT, GL_EMISSION, amarillo);
+
+    glPushMatrix();
+    glTranslatef(0, 3.75, 0);
+    glutSolidSphere(0.3, 20, 20);
+    glPopMatrix();
 }
 
 void igvEscena3D::muñeco_nieve ()
@@ -132,91 +236,71 @@ void igvEscena3D::muñeco_nieve ()
 
 void igvEscena3D::adaptador()
 {
-    // CUERPO PRINCIPAL DEL ADAPTADOR
+    // CUERPO PRINCIPAL
 
     GLfloat negro[] = { 0.05, 0.05, 0.05, 1.0 };
     glMaterialfv(GL_FRONT, GL_EMISSION, negro);
 
-    // Cuerpo principal (hacerlo con cilindro)
+    // Parte central del cuerpo
     glPushMatrix();
-    glScalef(3.0, 4.0, 2.0);
+    glScalef(3.6, 3.2, 2.4);
     glutSolidCube(1);
     glPopMatrix();
 
 
-    // PARTE SUPERIOR REDONDEADA
+    // PARTE SUPERIOR MÁS ESTRECHA
 
     glPushMatrix();
-    glTranslatef(0, 2.0, 0);
-    glScalef(3.0, 0.3, 2.0);
+    glTranslatef(0, 2.15, 0);
+    glScalef(2.4, 1.4, 1.8);
     glutSolidCube(1);
     glPopMatrix();
 
-
-    // PUERTO USB-C
-
-    // Marco exterior del puerto
-
-    glMaterialfv(GL_FRONT, GL_EMISSION, negro);
+    // PATILLA IZQUIERDA
 
     glPushMatrix();
-    glTranslatef(0, 0.3, 1.02);
-    glScalef(1.4, 0.55, 0.15);
+    glTranslatef(-0.7, 3.45, 0);
+    glScalef(0.35, 1.1, 0.35);
     glutSolidCube(1);
     glPopMatrix();
 
+    // PATILLA DERECHA
 
-    // Interior del puerto USB-C
     glPushMatrix();
-    glTranslatef(0, 0.3, 1.12);
-    glScalef(1.0, 0.25, 0.08);
+    glTranslatef(0.7, 3.45, 0);
+    glScalef(0.35, 1.1, 0.35);
     glutSolidCube(1);
     glPopMatrix();
 
-/*
-    // CONTACTOS DEL PUERTO USB-C
+    // PUNTAS METÁLICAS DE LAS PATILLAS
 
-    GLfloat metal[] = { 0.65, 0.65, 0.65, 1.0 };
+    GLfloat metal[] = { 0.45, 0.45, 0.45, 1.0 };
     glMaterialfv(GL_FRONT, GL_EMISSION, metal);
 
-    // Contacto superior
+    // Punta izquierda
+    GLUquadricObj *puntaIzq;
+    puntaIzq = gluNewQuadric();
+
     glPushMatrix();
-    glTranslatef(0, 0.43, 1.20);
-    glScalef(0.7, 0.06, 0.04);
-    glutSolidCube(1);
+    glTranslatef(-0.7, 4.0, 0);
+    glRotatef(-90, 1, 0, 0);
+    gluCylinder(puntaIzq, 0.22, 0.22, 0.5, 20, 10);
     glPopMatrix();
 
-    // Contacto inferior
+    gluDeleteQuadric(puntaIzq);
+
+
+    // Punta derecha
+    GLUquadricObj *puntaDer;
+    puntaDer = gluNewQuadric();
+
     glPushMatrix();
-    glTranslatef(0, 0.17, 1.20);
-    glScalef(0.7, 0.06, 0.04);
-    glutSolidCube(1);
-    glPopMatrix();
-*/
-
-    // PATILLAS DEL ENCHUFE
-
-    GLfloat gris[] = { 0.45, 0.45, 0.45, 1.0 };
-    glMaterialfv(GL_FRONT, GL_EMISSION, gris);
-
-    // Patilla izquierda
-    glPushMatrix();
-    glTranslatef(-0.8, -2.0, 0);
-    glRotatef(90, 1, 0, 0);
-    glScalef(0.35, 0.35, 1.5);
-    glutSolidCube(1);
+    glTranslatef(0.7, 4.0, 0);
+    glRotatef(-90, 1, 0, 0);
+    gluCylinder(puntaDer, 0.22, 0.22, 0.5, 20, 10);
     glPopMatrix();
 
-    // Patilla derecha
-    glPushMatrix();
-    glTranslatef(0.8, -2.0, 0);
-    glRotatef(90, 1, 0, 0);
-    glScalef(0.35, 0.35, 1.5);
-    glutSolidCube(1);
-    glPopMatrix();
-
-
-
+    gluDeleteQuadric(puntaDer);
 }
 
 
@@ -296,7 +380,7 @@ void igvEscena3D::visualizar ()
    glPopMatrix();
 
    glPushMatrix ();
-   glTranslatef(objeto[2].tx, objeto[0].ty, objeto[0].tz);
+   glTranslatef(objeto[2].tx, objeto[2].ty, objeto[2].tz);
    glRotatef(objeto[2].rx,1,0,0);
    glRotatef(objeto[2].ry,0,1,0);
    glRotatef(objeto[2].rz,0,0,1);
