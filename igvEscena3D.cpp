@@ -37,9 +37,7 @@ void igvEscena3D::pintar_ejes ()
 
 void igvEscena3D::mesita()
 {
-    // ============================================================
     // MESA REDONDA
-    // ============================================================
 
     GLfloat marron[] = { 0.45, 0.20, 0.05, 1.0 };
     glMaterialfv(GL_FRONT, GL_EMISSION, marron);
@@ -49,19 +47,24 @@ void igvEscena3D::mesita()
     tablero = gluNewQuadric();
 
     glPushMatrix();
-    glRotatef(90, 1, 0, 0);
+    glRotatef(90.0, 1.0, 0.0, 0.0);
     gluCylinder(tablero, 3.0, 3.0, 0.5, 40, 10);
+
+    glPushMatrix();
+    glRotatef(180.0, 1.0, 0.0, 0.0);
+    gluDisk(tablero, 0.0, 3.0, 40, 1);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0.0, 0.0, 0.5);
+    gluDisk(tablero, 0.0, 3.0, 40, 1);
+    glPopMatrix();
     glPopMatrix();
 
     gluDeleteQuadric(tablero);
 
 
-
-
-
-    // ============================================================
     // PATA CENTRAL
-    // ============================================================
 
     GLfloat marronOscuro[] = { 0.25, 0.10, 0.03, 1.0 };
     glMaterialfv(GL_FRONT, GL_EMISSION, marronOscuro);
@@ -77,10 +80,7 @@ void igvEscena3D::mesita()
 
     gluDeleteQuadric(pata);
 
-
-    // ============================================================
     // BASE DE LA MESA
-    // ============================================================
 
     glPushMatrix();
     glTranslatef(0, -3.1, 0);
@@ -89,9 +89,7 @@ void igvEscena3D::mesita()
     glPopMatrix();
 
 
-    // ============================================================
     // FLORERO
-    // ============================================================
 
     GLfloat florero[] = { 0.2, 0.55, 0.65, 1.0 };
     glMaterialfv(GL_FRONT, GL_EMISSION, florero);
@@ -101,84 +99,19 @@ void igvEscena3D::mesita()
 
     // Cuerpo del florero
     glPushMatrix();
-    glTranslatef(0, 0.7, 0);
+    glTranslatef(0, 0.0, 0);
     glRotatef(-90, 1, 0, 0);
     gluCylinder(vaso, 0.65, 0.45, 1.2, 30, 10);
     glPopMatrix();
 
     gluDeleteQuadric(vaso);
 
-
     // Borde del florero
     glPushMatrix();
-    glTranslatef(0, 1.9, 0);
+    glTranslatef(0, 1.2, 0);
     glutSolidTorus(0.10, 0.65, 20, 30);
     glPopMatrix();
 
-
-    // ============================================================
-    // TALLO DE LA FLOR
-    // ============================================================
-
-    GLfloat verde[] = { 0.05, 0.5, 0.05, 1.0 };
-    glMaterialfv(GL_FRONT, GL_EMISSION, verde);
-
-    GLUquadricObj *tallo;
-    tallo = gluNewQuadric();
-
-    glPushMatrix();
-    glTranslatef(0, 1.9, 0);
-    glRotatef(-90, 1, 0, 0);
-    gluCylinder(tallo, 0.08, 0.08, 1.8, 15, 8);
-    glPopMatrix();
-
-    gluDeleteQuadric(tallo);
-
-
-    // ============================================================
-    // FLOR
-    // ============================================================
-
-    GLfloat rosa[] = { 0.9, 0.1, 0.25, 1.0 };
-    glMaterialfv(GL_FRONT, GL_EMISSION, rosa);
-
-    // Pétalo izquierdo
-    glPushMatrix();
-    glTranslatef(-0.3, 3.75, 0);
-    glScalef(0.4, 0.4, 0.25);
-    glutSolidSphere(1.0, 20, 20);
-    glPopMatrix();
-
-    // Pétalo derecho
-    glPushMatrix();
-    glTranslatef(0.3, 3.75, 0);
-    glScalef(0.4, 0.4, 0.25);
-    glutSolidSphere(1.0, 20, 20);
-    glPopMatrix();
-
-    // Pétalo superior
-    glPushMatrix();
-    glTranslatef(0, 4.05, 0);
-    glScalef(0.4, 0.4, 0.25);
-    glutSolidSphere(1.0, 20, 20);
-    glPopMatrix();
-
-    // Pétalo inferior
-    glPushMatrix();
-    glTranslatef(0, 3.45, 0);
-    glScalef(0.4, 0.4, 0.25);
-    glutSolidSphere(1.0, 20, 20);
-    glPopMatrix();
-
-
-    // Centro de la flor
-    GLfloat amarillo[] = { 1.0, 0.7, 0.0, 1.0 };
-    glMaterialfv(GL_FRONT, GL_EMISSION, amarillo);
-
-    glPushMatrix();
-    glTranslatef(0, 3.75, 0);
-    glutSolidSphere(0.3, 20, 20);
-    glPopMatrix();
 }
 
 void igvEscena3D::muñeco_nieve ()
