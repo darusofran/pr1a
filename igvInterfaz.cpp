@@ -127,6 +127,14 @@ void igvInterfaz::keyboardFunc ( unsigned char key, int x, int y )
          _instancia->escena.seleccionado=2;
          break;
 
+      case 'u':
+         _instancia->escena.objeto[_instancia->escena.seleccionado].ty += 0.1;
+      break;
+
+      case 'U':
+         _instancia->escena.objeto[_instancia->escena.seleccionado].ty -= 0.1;
+      break;
+
       case 'x':
           _instancia->escena.objeto[_instancia->escena.seleccionado].rx += 0.5;
           break;
@@ -177,11 +185,11 @@ void igvInterfaz::specialKeyFunc ( int key, int x, int y )
       break;
 
    case GLUT_KEY_DOWN :
-      _instancia->escena.objeto[_instancia->escena.seleccionado].ty -= 0.1;
+      _instancia->escena.objeto[_instancia->escena.seleccionado].tz -= 0.1;
       break;
 
    case GLUT_KEY_UP :
-      _instancia->escena.objeto[_instancia->escena.seleccionado].ty += 0.1;
+      _instancia->escena.objeto[_instancia->escena.seleccionado].tz += 0.1;
       break;
    }
 

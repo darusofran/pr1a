@@ -14,9 +14,9 @@
  */
 
 struct Transformaciones {
-   float tx = 0.0f, ty = 0.0f, tz = 0.0f;
-   float rx = 0.0f, ry = 0.0f, rz = 0.0f;
-   float s = 1.0f;
+   float tx = 0.0, ty = 0.0, tz = 0.0;
+   float rx = 0.0, ry = 0.0, rz = 0.0;
+   float s = 1.0;
 };
 
 class igvEscena3D
