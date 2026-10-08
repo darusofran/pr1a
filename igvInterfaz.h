@@ -13,6 +13,7 @@
 
 #include <string>
 #include "igvEscena3D.h"
+#include "igvCamara.h"
 
 /**
  * Los objetos de esta clase encapsulan la interfaz y el estado de la aplicaci�n
@@ -24,6 +25,11 @@ class igvInterfaz
       int alto_ventana = 0;  ///< Alto de la ventana de visualizaci�n
 
       igvEscena3D escena; ///< Escena que se visualiza en la ventana definida por igvInterfaz
+
+      igvCamara camara;
+      igvCamara camaraSuperior;
+
+      bool modoCamara = false;
 
       //int menuSelection = 0; ///< �ltima opci�n de men� seleccionada
 

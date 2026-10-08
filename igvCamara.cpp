@@ -121,28 +121,153 @@ void igvCamara::aplicar ()
    gluLookAt ( P0[X], P0[Y], P0[Z], r[X], r[Y], r[Z], V[X], V[Y], V[Z] );
 }
 
-/**
- * Realiza un zoom sobre la c�mara
- * @param factor Factor (en tanto por 100) que se aplica al zoom. Si el valor es
- *        positivo, se aumenta el zoom. Si es negativo, se reduce.
- * @pre Se asume que el par�metro tiene un valor v�lido
- */
-void igvCamara::zoom ( double factor )
-{  // TODO: apartado C
-    if (tipo == IGV_PARALELA || tipo == IGV_FRUSTUM)
+// ÓRBITA
+
+void igvCamara::orbitar(double grados)
+{
+    double rad = grados * M_PI / 180.0;
+
+    double dx = P0[X] - r[X];
+    double dz = P0[Z] - r[Z];
+
+    double nuevoX =
+            dx * cos(rad) - dz * sin(rad);
+
+    double nuevoZ =
+            dx * sin(rad) + dz * cos(rad);
+
+    P0[X] = r[X] + nuevoX;
+    P0[Z] = r[Z] + nuevoZ;
+}
+
+// CABECEO
+
+void igvCamara::cabecear(double grados)
+{
+    double rad = grados * M_PI / 180.0;
+
+    // Vector desde la cámara al punto de referencia
+    double dx = r[X] - P0[X];
+    double dy = r[Y] - P0[Y];
+    double dz = r[Z] - P0[Z];
+
+    // Eje X local de la cámara
+    double rx = V[Y] * dz - V[Z] * dy;
+    double ry = V[Z] * dx - V[X] * dz;
+    double rz = V[X] * dy - V[Y] * dx;
+
+    double longitud =
+            sqrt(rx * rx + ry * ry + rz * rz);
+
+    if (longitud < 0.000001)
+        return;
+
+    rx /= longitud;
+    ry /= longitud;
+    rz /= longitud;
+
+
+    // Rotación de Rodrigues
+    double cosA = cos(rad);
+    double sinA = sin(rad);
+
+    double nuevoX =
+            dx * cosA +
+            (ry * dz - rz * dy) * sinA +
+            rx * (rx * dx + ry * dy + rz * dz) * (1 - cosA);
+
+    double nuevoY =
+            dy * cosA +
+            (rz * dx - rx * dz) * sinA +
+            ry * (rx * dx + ry * dy + rz * dz) * (1 - cosA);
+
+    double nuevoZ =
+            dz * cosA +
+            (rx * dy - ry * dx) * sinA +
+            rz * (rx * dx + ry * dy + rz * dz) * (1 - cosA);
+
+
+    r[X] = P0[X] + nuevoX;
+    r[Y] = P0[Y] + nuevoY;
+    r[Z] = P0[Z] + nuevoZ;
+}
+
+
+// ROTACIÓN SOBRE EL EJE Y DE LA CÁMARA
+
+
+void igvCamara::rotarY(double grados)
+{
+    double rad = grados * M_PI / 180.0;
+
+    double dx = r[X] - P0[X];
+    double dz = r[Z] - P0[Z];
+
+    double nuevoX =
+            dx * cos(rad) - dz * sin(rad);
+
+    double nuevoZ =
+            dx * sin(rad) + dz * cos(rad);
+
+    r[X] = P0[X] + nuevoX;
+    r[Z] = P0[Z] + nuevoZ;
+}
+
+void igvCamara::zoom(double factor)
+{
+    // Convertimos porcentaje a factor.
+    // Por ejemplo:
+    // 10  -> 1.10
+    // -10 -> 0.90
+
+    double f = 1.0 + factor / 100.0;
+
+
+    if (tipo == IGV_PARALELA ||
+        tipo == IGV_FRUSTUM)
     {
-        xwmin *= factor;
-        xwmax *= factor;
-        ywmin *= factor;
-        ywmax *= factor;
+        xwmin *= f;
+        xwmax *= f;
+
+        ywmin *= f;
+        ywmax *= f;
     }
     else
     {
-        if (angulo * factor < 180.0)
-        {
-            angulo *= factor;
-        }
+        angulo *= f;
+
+        // Evitamos valores absurdos
+        if (angulo < 10)
+            angulo = 10;
+
+        if (angulo > 120)
+            angulo = 120;
     }
+}
+
+// RECORTE DEL PLANO DELANTERO
+
+void igvCamara::moverZnear(double cantidad)
+{
+    znear += cantidad;
+
+    // Nunca puede superar al plano trasero
+    if (znear < 0.1)
+        znear = 0.1;
+
+    if (znear >= zfar - 0.1)
+        znear = zfar - 0.1;
+}
+
+// RECORTE DEL PLANO TRASERO
+
+void igvCamara::moverZfar(double cantidad)
+{
+    zfar += cantidad;
+
+    // Nunca puede estar antes del plano delantero
+    if (zfar <= znear + 0.1)
+        zfar = znear + 0.1;
 }
 
 tipoCamara igvCamara::getTipo() const {
@@ -193,10 +318,25 @@ const igvPunto3D &igvCamara::getV() const {
     return V;
 }
 
-void igvCamara::setZnear(GLdouble znear) {
-    igvCamara::znear = znear;
+void igvCamara::setZnear(GLdouble valor)
+{
+    znear = valor;
+
+    if (znear < 0.1) {
+        znear = 0.1;
+    }
+
+    if (znear >= zfar) {
+        znear = zfar - 0.1;
+    }
 }
 
-void igvCamara::setZfar(GLdouble zfar) {
-    igvCamara::zfar = zfar;
+void igvCamara::setZfar(GLdouble valor)
+{
+    zfar = valor;
+
+    if (zfar <= znear) {
+        zfar = znear + 0.1;
+    }
+
 }

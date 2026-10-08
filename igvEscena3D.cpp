@@ -243,9 +243,7 @@ void igvEscena3D::adaptador()
 }*/
 
 void igvEscena3D::visualizar ()
-{  // borra la ventana y el Z-buffer
-   glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
+{
    //Luces
    GLfloat light0[] = { 10, 8, 9, 1 }; // point light source
    glLightfv ( GL_LIGHT0, GL_POSITION, light0 );
@@ -303,7 +301,7 @@ void igvEscena3D::visualizar ()
    adaptador();
    glPopMatrix();
 
-   glutSwapBuffers (); // se utiliza, en vez de glFlush(), para evitar el parpadeo
+
 }
 
 /**

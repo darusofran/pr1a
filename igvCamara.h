@@ -41,12 +41,29 @@ private:
     GLdouble angulo = 60   ///< �ngulo de apertura (proyecci�n perspectiva)
     , raspecto = 1   ///< Raz�n de aspecto (proyecci�n perspectiva)
     ;
+
+    // distancias de planos cercano y lejano
+    GLdouble znear = 1    ///< Distancia de la c�mara al plano Z near
+    , zfar = 200 ///< Distancia de la c�mara al plano Z far
+    ;
+
+    // punto de visi�n
+    igvPunto3D P0 = {3, 2, 4};   ///< Posici�n de la c�mara
+
+    // punto de referencia de visi�n
+    igvPunto3D r = {0, 0, 0};   ///< Punto al que mira la c�mara
+
+    // vector arriba
+    igvPunto3D V = {0, 1, 0};   ///< Vector que indica la vertical
+
+    // M�todos
+
 public:
     void setZnear(GLdouble znear);
 
     void setZfar(GLdouble zfar);
 
-public:
+
     tipoCamara getTipo() const;
 
     GLdouble getXwmin() const;
@@ -71,25 +88,8 @@ public:
 
     const igvPunto3D &getV() const;
 
-private:
 
-    // distancias de planos cercano y lejano
-    GLdouble znear = 1    ///< Distancia de la c�mara al plano Z near
-    , zfar = 200 ///< Distancia de la c�mara al plano Z far
-    ;
 
-    // punto de visi�n
-    igvPunto3D P0 = {3, 2, 4};   ///< Posici�n de la c�mara
-
-    // punto de referencia de visi�n
-    igvPunto3D r = {0, 0, 0};   ///< Punto al que mira la c�mara
-
-    // vector arriba
-    igvPunto3D V = {0, 1, 0};   ///< Vector que indica la vertical
-
-    // M�todos
-
-public:
     // Constructores por defecto y destructor
     /// Constructor por defecto
     igvCamara() = default;
@@ -114,9 +114,26 @@ public:
     set(tipoCamara _tipo, igvPunto3D _P0, igvPunto3D _r, igvPunto3D _V, double _angulo, double _raspecto, double _znear,
         double _zfar);
 
-    void aplicar(void); // aplica a los objetos de la escena la transformaci�n
-    // de visi�n y la transformaci�n de proyecci�n
-    // asociadas a los par�metros de la c�mara
+    // Aplicar cámara
+    void aplicar();
+
+
+    // Movimientos de cámara
+
+    // Órbita alrededor del origen
+    void orbitar(double grados);
+
+    // Cabeceo de la cámara
+    void cabecear(double grados);
+
+    // Rotación alrededor del eje Y de la cámara
+    void rotarY(double grados);
+
+
+    // Recorte
+    void moverZnear(double cantidad);
+    void moverZfar(double cantidad);
+
     void zoom(double factor); // realiza un zoom sobre la c�mara
 };
 

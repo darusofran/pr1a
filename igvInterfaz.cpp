@@ -2,6 +2,7 @@
 
 #include "igvInterfaz.h"
 #include "igvEscena3D.h"
+#include "igvCamara.h"
 
 
 // Aplicaci�n del patr�n Singleton
@@ -12,8 +13,32 @@ igvInterfaz* igvInterfaz::_instancia = nullptr;
 /**
  * Constructor por defecto
  */
-igvInterfaz::igvInterfaz()
-{}
+igvInterfaz::igvInterfaz() {
+   // Cámara principal
+   camara.set(
+       IGV_PERSPECTIVA,
+       igvPunto3D(8, 6, 10),
+       igvPunto3D(0, 0, 0),
+       igvPunto3D(0, 1, 0),
+       60,
+       1,
+       1,
+       200
+   );
+
+
+   // Cámara superior
+   camaraSuperior.set(
+       IGV_PARALELA,
+       igvPunto3D(0, 20, 0),
+       igvPunto3D(0, 0, 0),
+       igvPunto3D(0, 0, -1),
+       -8, 8,
+       -8, 8,
+       1,
+       200
+   );
+}
 
 // M�todos p�blicos ----------------------------------------
 
@@ -144,11 +169,21 @@ void igvInterfaz::keyboardFunc ( unsigned char key, int x, int y )
          break;
 
       case 'y':
-         _instancia->escena.objeto[_instancia->escena.seleccionado].ry += 0.5;
+         if(_instancia->modoCamara) {
+            _instancia->camara.rotarY(5);
+         }
+         else {
+            _instancia->escena.objeto[_instancia->escena.seleccionado].ry += 0.5;
+         }
          break;
 
       case 'Y':
-         _instancia->escena.objeto[_instancia->escena.seleccionado].ry -= 0.5;
+         if(_instancia->modoCamara) {
+            _instancia->camara.rotarY(-5);
+         }
+         else {
+            _instancia->escena.objeto[_instancia->escena.seleccionado].ry -= 0.5;
+         }
          break;
 
       case 'z':
@@ -167,6 +202,42 @@ void igvInterfaz::keyboardFunc ( unsigned char key, int x, int y )
          _instancia->escena.objeto[_instancia->escena.seleccionado].s -= 0.5;
          break;
 
+      case 'c':
+      case 'C':
+         _instancia->modoCamara = !_instancia->modoCamara;
+         break;
+
+      case 'p':
+      case 'P':
+      {
+         if (_instancia->camara.getTipo() == IGV_PARALELA)
+         {
+            _instancia->camara.set(IGV_PERSPECTIVA,_instancia->camara.getP0(),_instancia->camara.getR(),_instancia->camara.getV(),_instancia->camara.getAngulo(),_instancia->camara.getRaspecto(),_instancia->camara.getZnear(),_instancia->camara.getZfar());
+         }
+         else
+         {
+            _instancia->camara.set(IGV_PARALELA,_instancia->camara.getP0(),_instancia->camara.getR(),_instancia->camara.getV(),_instancia->camara.getXwmin(),_instancia->camara.getXwmax(),_instancia->camara.getYwmin(),_instancia->camara.getYwmax(),_instancia->camara.getZnear(),_instancia->camara.getZfar());
+         }
+
+      break;
+   }
+      case '+':
+         _instancia->camara.zoom(-10);
+         break;
+
+      case '-':
+         _instancia->camara.zoom(10);
+         break;
+
+      case 'f':
+      case 'F':
+         _instancia->camara.moverZnear(0.5);
+         break;
+
+      case 'b':
+      case 'B':
+          _instancia->camara.moverZfar(-0.5);
+         break;
 
    }
    glutPostRedisplay (); // renueva el contenido de la ventana de vision
@@ -174,26 +245,53 @@ void igvInterfaz::keyboardFunc ( unsigned char key, int x, int y )
 
 void igvInterfaz::specialKeyFunc ( int key, int x, int y )
 {
-   switch ( key )
+   // MODO CÁMARA
+
+   if (_instancia->modoCamara)
    {
-   case  GLUT_KEY_LEFT:
-      _instancia->escena.objeto[_instancia->escena.seleccionado].tx -= 0.1;
-      break;
+      switch (key)
+      {
+         case GLUT_KEY_LEFT:
+            _instancia->camara.orbitar(-5);
+            break;
 
-   case GLUT_KEY_RIGHT :
-      _instancia->escena.objeto[_instancia->escena.seleccionado].tx += 0.1;
-      break;
+         case GLUT_KEY_RIGHT:
+            _instancia->camara.orbitar(5);
+            break;
 
-   case GLUT_KEY_DOWN :
-      _instancia->escena.objeto[_instancia->escena.seleccionado].tz -= 0.1;
-      break;
+         case GLUT_KEY_UP:
+            _instancia->camara.cabecear(5);
+            break;
 
-   case GLUT_KEY_UP :
-      _instancia->escena.objeto[_instancia->escena.seleccionado].tz += 0.1;
-      break;
+         case GLUT_KEY_DOWN:
+            _instancia->camara.cabecear(-5);
+            break;
+      }
+   }
+   // MODO OBJETOS
+   else
+   {
+      switch (key)
+      {
+         case GLUT_KEY_LEFT:
+            _instancia->escena.objeto[_instancia->escena.seleccionado].tx -= 0.1;
+            break;
+
+         case GLUT_KEY_RIGHT:
+            _instancia->escena.objeto[_instancia->escena.seleccionado].tx += 0.1;
+            break;
+
+         case GLUT_KEY_DOWN:
+            _instancia->escena.objeto[_instancia->escena.seleccionado].tz -= 0.1;
+            break;
+
+         case GLUT_KEY_UP:
+            _instancia->escena.objeto[_instancia->escena.seleccionado].tz += 0.1;
+            break;
+      }
    }
 
-   glutPostRedisplay ();
+   glutPostRedisplay();
 }
 
 
@@ -204,33 +302,76 @@ void igvInterfaz::specialKeyFunc ( int key, int x, int y )
  * @param h Nuevo alto de la ventana
  * @pre Se asume que todos los par�metros tienen valores v�lidos
  */
-void igvInterfaz::reshapeFunc ( int w, int h )
-{  // dimensiona el viewport al nuevo ancho y alto de la ventana
-   glViewport ( 0, 0, (GLsizei) w, (GLsizei) h );
+void igvInterfaz::reshapeFunc(int w, int h)
+{
+    if (h == 0) {
+       h = 1;
+    }
 
-   // guardamos valores nuevos de la ventana de visualizacion
-   _instancia->set_ancho_ventana ( w );
-   _instancia->set_alto_ventana ( h );
+    _instancia->ancho_ventana = w;
+    _instancia->alto_ventana = h;
 
-   // establece el tipo de proyeccion a utilizar
-   glMatrixMode ( GL_PROJECTION );
-   glLoadIdentity ();
+    // Relación de aspecto de la cámara principal
+    double aspecto = (double) w / (double) h;
 
-   glOrtho ( -1 * 5, 1 * 5, -1 * 5, 1 * 5, -1 * 5, 200 );
+    // Actualizamos la cámara manteniendo sus parámetros
+    if (_instancia->camara.getTipo() == IGV_PERSPECTIVA)
+    {
+        _instancia->camara.set(
+            IGV_PERSPECTIVA,
+            _instancia->camara.getP0(),
+            _instancia->camara.getR(),
+            _instancia->camara.getV(),
+            _instancia->camara.getAngulo(),
+            aspecto,
+            _instancia->camara.getZnear(),
+            _instancia->camara.getZfar()
+        );
+    }
 
-   // se define la camara de vision
-   glMatrixMode ( GL_MODELVIEW );
-   glLoadIdentity ();
-
-   gluLookAt ( 1.5, 1.0, 2.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0 ); // vista en perspectiva
-   //gluLookAt(1.5,0,0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); // vista en planta desde el eje X positivo
+    glutPostRedisplay();
 }
 
 /**
  * M�todo para visualizar la escena
  */
-void igvInterfaz::displayFunc ()
-{  _instancia->escena.visualizar ();
+void igvInterfaz::displayFunc()
+{
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+   // VIEWPORT PRINCIPAL
+
+   glViewport(0,0,_instancia->ancho_ventana,_instancia->alto_ventana);
+
+   // Aplicamos cámara principal
+   _instancia->camara.aplicar();
+
+   // Dibujamos escena
+   _instancia->escena.visualizar();
+
+
+   // VIEWPORT SUPERIOR
+
+   int anchoSuperior = _instancia->ancho_ventana / 4;
+
+   int altoSuperior = _instancia->alto_ventana / 4;
+
+
+   // Lo ponemos arriba a la derecha
+   glViewport(
+       _instancia->ancho_ventana - anchoSuperior - 10,
+       _instancia->alto_ventana - altoSuperior - 10,
+       anchoSuperior,
+       altoSuperior
+   );
+
+   // Cámara superior
+   _instancia->camaraSuperior.aplicar();
+
+   // Dibujamos la misma escena
+   _instancia->escena.visualizar();
+
+   glutSwapBuffers();
 }
 
 /**
