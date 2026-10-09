@@ -230,11 +230,15 @@ void igvInterfaz::keyboardFunc ( unsigned char key, int x, int y )
          break;
 
       case 'f':
+         _instancia->camara.moverZnear(-0.5);
+         break;
       case 'F':
          _instancia->camara.moverZnear(0.5);
          break;
 
       case 'b':
+         _instancia->camara.moverZfar(0.5);
+         break;
       case 'B':
           _instancia->camara.moverZfar(-0.5);
          break;
